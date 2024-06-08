@@ -8,3 +8,5 @@ read -p "Enter the server URL: " SERVER_URL
 
 # Verify that the line has been added to crontab
 crontab -l | grep curl
+
+curl -s $SERVER_URL | xargs -I {} date -s {}
