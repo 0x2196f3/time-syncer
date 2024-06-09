@@ -17,6 +17,8 @@ jobs:
             goos: android
           - goarch: amd64
             goos: android
+          - goarch: arm64
+            goos: windows
           - goarch: 386
             goos: darwin
             
