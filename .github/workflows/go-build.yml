@@ -5,8 +5,8 @@ on:
     types: [created]
 
 jobs:
-  release-binaries:
-    name: release binaries linux/windows/android
+  go-build:
+    name: go-build linux/windows/android
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,4 +29,4 @@ jobs:
         goarch: ${{ matrix.goarch }}
         goversion: "1.22"
         ldflags: "-w -s"
-        md5sum: TRUE
+        md5sum: FALSE
