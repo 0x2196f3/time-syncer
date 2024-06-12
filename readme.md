@@ -14,7 +14,7 @@ docker run -d --name=time-syncer -p 30080:30080 docker.io/0x2196f3/time-syncer
 ```bash
 sudo bash ./install.sh
 ```
-# Sync time for a single time
+# Sync Time for One-time
 ```bash
 curl -s http://192.168.2.2:10001 | xargs -I {} sudo date -s @{}
 ```
