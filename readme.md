@@ -18,7 +18,7 @@ sudo bash ./install.sh
 ```bash
 curl -s http://192.168.2.2:10001 | xargs -I {} sudo date -s @{}
 ```
-- enter server ip and port
+- change the url to yours
 
 # Environment Variable
 | Environment Variable | Usage |
