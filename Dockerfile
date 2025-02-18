@@ -1,20 +1,15 @@
-# Use an official Golang image as a base
-FROM golang:alpine
+FROM golang:alpine AS builder
 
-# Set the working directory to /app
 WORKDIR /app
 
-# Copy the Go module files
-COPY go.mod ./
+COPY go.mod main.go ./
+RUN go mod download && go build -o main main.go
 
-# Install the dependencies
-RUN go mod download
+FROM alpine:latest
 
-# Copy the source code
-COPY . .
+WORKDIR /app
 
-# Build the Go program
-RUN go build -o main main.go
+COPY --from=builder /app/main .
+EXPOSE 30080
 
-# Run the command to start the server
-CMD ["go", "run", "main.go"]
+CMD ["./main"]
