@@ -8,40 +8,23 @@ import (
 	"time"
 )
 
-func currentTimeHandler(w http.ResponseWriter, _ *http.Request) {
-	timestamp := time.Now().Unix()
-	_, err := fmt.Fprintf(w, "%d", timestamp)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-}
-
 func main() {
-	portStr := os.Getenv("PORT")
-
-	var port int
-	if portStr == "" {
+	port, err := strconv.Atoi(os.Getenv("PORT"))
+	if err != nil {
 		port = 30080
-		fmt.Println("PORT environment variable is not set, use default port " + strconv.Itoa(port))
-	} else {
-		var err error
-		port, err = strconv.Atoi(portStr)
-		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("Error: invalid PORT environment variable:", err)
-			return
-		}
 	}
 
-	http.HandleFunc("/", currentTimeHandler)
+	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
+		_, err := fmt.Fprintf(w, "%d", time.Now().Unix())
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
 
-	fmt.Printf("Listening on port %d...\n", port)
+	fmt.Printf("listening on port %d...\n", port)
 
-	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	if err != nil {
-		fmt.Println(err.Error())
-		fmt.Println("Error: failed to start server:", err)
-		return
+		fmt.Printf("failed to start server: %s\n", err.Error())
 	}
 }
